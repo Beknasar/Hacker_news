@@ -1,3 +1,9 @@
 from django.contrib import admin
+from webapp.models import Post
 
-# Register your models here.
+
+class PostAdmin(admin.ModelAdmin):
+    readonly_fields = ('vote_amount',)
+
+
+admin.site.register(Post, PostAdmin)
