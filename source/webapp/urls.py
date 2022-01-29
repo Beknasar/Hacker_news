@@ -1,5 +1,5 @@
 from django.urls import path, include
-from webapp.views import IndexView, CreatePostView, PostView, PostUpdateView
+from webapp.views import IndexView, CreatePostView, PostView, PostUpdateView, PostDeleteView
 
 app_name = 'webapp'
 
@@ -10,6 +10,7 @@ urlpatterns = [
         path('<int:pk>/', include([
             path('', PostView.as_view(), name='post_view'),
             path('update/', PostUpdateView.as_view(), name='post_update'),
+            path('delete/', PostDeleteView.as_view(), name='post_delete'),
         ])),
     ])),
 ]

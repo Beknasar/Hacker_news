@@ -4,6 +4,7 @@
 
 {% block menu %}
     <li><a href="{% url 'webapp:post_update' post.pk %}"><i class="fas fa-edit"></i> Обновить пост</a></li>
+    <li><a href="{% url 'webapp:post_delete' post.pk %}"><i class="fas fa-trash"></i> Удалить пост</a></li>
 {% endblock %}
 {% block content %}
     <h3>Автор: {{ post.author }}</h3>

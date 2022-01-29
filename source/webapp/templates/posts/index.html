@@ -25,8 +25,9 @@
             <p>Дата публикации: {{ post.date_create }}</p>
             <p><a href="{{ post.link }}">Подробнее</a></p>
             <p><i class="far fa-heart"></i> {{ post.vote_amount }}</p>
-
         </div>
     {% endfor %}
-
+    {% if is_paginated %}
+        {% include 'partial/pagination.html' %}
+    {% endif %}
 {% endblock %}
