@@ -1,8 +1,9 @@
 from django.db.models import Q
 from webapp.models import Post
-from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView, View
 from webapp.forms import SearchForm, PostForm
 from django.urls import reverse, reverse_lazy
+from django.shortcuts import get_object_or_404
 
 
 class IndexView(ListView):
@@ -49,3 +50,4 @@ class PostDeleteView(DeleteView):
     template_name = 'posts/post_delete.html'
     model = Post
     success_url = reverse_lazy('webapp:index')
+
