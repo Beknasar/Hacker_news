@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block menu %}
-    <li><a href="{% url 'webapp:post_add' %}">Предложить новость</a></li>
+    <li><a href="{% url 'webapp:post_add' %}"><i class="fas fa-plus-square"></i> Предложить новость</a></li>
 {% endblock %}
 
 {% block content %}
@@ -22,7 +22,7 @@
         <div class="box">
             <h3>Автор: {{ post.author }}</h3>
             <h4><a href="{% url 'webapp:post_view' post.pk %}">{{ post.title }}</a></h4>
-            <p>Дата публикации: {{ post.date_created }}</p>
+            <p>Дата публикации: {{ post.date_create }}</p>
             <p><a href="{{ post.link }}">Подробнее</a></p>
             <p><i class="far fa-heart"></i> {{ post.vote_amount }}</p>
 

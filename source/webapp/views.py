@@ -27,11 +27,20 @@ class CreatePostView(CreateView):
     model = Post
 
     def get_success_url(self):
-        return reverse('webapp:index')
-        # return reverse('post_view', kwargs={'pk': self.object.pk})
+        return reverse('post_view', kwargs={'pk': self.object.pk})
 
 
 class PostView(DetailView):
     template_name = 'posts/post_view.html'
     model = Post
+
+
+class PostUpdateView(UpdateView):
+    template_name = 'posts/post_update.html'
+    form_class = PostForm
+    model = Post
+    context_object_name = 'post'
+
+    def get_success_url(self):
+        return reverse('webapp:post_view', kwargs={'pk': self.object.pk})
 

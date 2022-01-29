@@ -1,24 +1,13 @@
 {% extends 'base.html' %}
 
-{% block title %}View{% endblock %}
+{% block title %}Просмотр{% endblock %}
 
-{#{% block menu %}#}
-{#    {% if perms.webapp.change_project or request.user.pk == 1 %}#}
-{#        <li><a href="{% url 'project_update' project.pk %}">Update Project</a></li>#}
-{#    {% endif %}#}
-{#    {% if perms.webapp.change_project or request.user.pk == 1 %}#}
-{#        <li><a href="{% url 'project_delete' project.pk %}">Delete Project</a></li>#}
-{#    {% endif %}#}
-{#    {% if perms.webapp.change_project and request.user in project.author.all %}#}
-{#        <li><a href="{% url 'project_user_edit' project.pk %}">Edit User</a></li>#}
-{#    {% endif %}#}
-{#    {% if perms.webapp.add_tasks and request.user in project.author.all %}#}
-{#        <li><a href="{% url 'task_create' project.pk %}">Add Task</a></li>#}
-{#    {% endif %}#}
-{#{% endblock %}#}
+{% block menu %}
+    <li><a href="{% url 'webapp:post_update' post.pk %}"><i class="fas fa-edit"></i> Обновить пост</a></li>
+{% endblock %}
 {% block content %}
     <h3>Автор: {{ post.author }}</h3>
     <h4><a href="{{ post.link }}">{{ post.title }}</a></h4>
-    <p>Дата публикации: {{ post.date_created }}</p>
+    <p>Дата публикации: {{ post.date_create }}</p>
     <p><i class="far fa-heart"></i> {{ post.vote_amount }}</p>
 {% endblock %}

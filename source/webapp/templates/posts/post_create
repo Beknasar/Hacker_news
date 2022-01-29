@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
-{% block title %}Create{% endblock %}
+{% block title %}Добавление{% endblock %}
 
 {% block content %}
-    <h1>Add Post</h1>
+    <h1>Добавить поста</h1>
     {% url 'webapp:post_add' as action_url %}
     {% include 'partial/form.html' with action_url=action_url form_method='post' %}
 {% endblock %}
