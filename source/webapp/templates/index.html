@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Posts{% endblock %}
+
+{% block search %}
+    <div class="search-form">
+            <form action="{% url 'webapp:index' %}" method="GET">
+                <input type="text" name="search">
+                <input type="submit" value="Найти">
+            </form>
+        </div>
+{% endblock %}
+{% block content %}
+    <h1>Новости HackerNews:</h1>
+    {% for post in posts %}
+        <div class="box">
+            <p>Автор: {{ post.author }}</p>
+            <h3><a href="{{ post.link }}">{{ post.title }}</a></h3>
+            <p>Дата публикации: {{ post.date_created }}</p>
+            <p>{{ post.vote_amount }}</p>
+        </div>
+    {% endfor %}
+
+{% endblock %}
