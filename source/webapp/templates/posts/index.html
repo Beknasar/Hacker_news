@@ -11,6 +11,11 @@
             </form>
         </div>
 {% endblock %}
+
+{% block menu %}
+    <li><a href="{% url 'webapp:post_add' %}">Предложить новость</a></li>
+{% endblock %}
+
 {% block content %}
     <h1>Новости HackerNews:</h1>
     {% for post in posts %}
