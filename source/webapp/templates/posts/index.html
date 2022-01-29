@@ -20,10 +20,12 @@
     <h1>Новости HackerNews:</h1>
     {% for post in posts %}
         <div class="box">
-            <p>Автор: {{ post.author }}</p>
-            <h3><a href="{{ post.link }}">{{ post.title }}</a></h3>
+            <h3>Автор: {{ post.author }}</h3>
+            <h4><a href="{% url 'webapp:post_view' post.pk %}">{{ post.title }}</a></h4>
             <p>Дата публикации: {{ post.date_created }}</p>
-            <p>{{ post.vote_amount }}</p>
+            <p><a href="{{ post.link }}">Подробнее</a></p>
+            <p><i class="far fa-heart"></i> {{ post.vote_amount }}</p>
+
         </div>
     {% endfor %}
 
