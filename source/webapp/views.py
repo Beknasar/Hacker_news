@@ -3,13 +3,13 @@ from webapp.models import Post
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView, View
 from webapp.forms import SearchForm, PostForm
 from django.urls import reverse, reverse_lazy
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 
 
 class IndexView(ListView):
     template_name = 'posts/index.html'
     context_object_name = 'posts'
-    paginate_by = 5
+    paginate_by = 3
     paginate_orphans = 0
 
     def get_queryset(self):
@@ -27,8 +27,11 @@ class CreatePostView(CreateView):
     form_class = PostForm
     model = Post
 
-    def get_success_url(self):
-        return reverse('post_view', kwargs={'pk': self.object.pk})
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.author = self.request.user
+        post.save()
+        return redirect('webapp:post_view', pk=post.pk)
 
 
 class PostView(DetailView):

@@ -1,0 +1,13 @@
+{% for post in posts %}
+        <div class="box">
+            <h4>
+                <a href="#"><i class="far fa-heart"></i></a>
+                <a href="{% url 'webapp:post_view' post.pk %}">{{ post.title }}</a>
+            </h4>
+            <p>{{ post.vote_amount }} голосов за пост пользователя {{ post.author }} || Дата публикации: {{ post.date_create }}</p>
+            <p><a href="{{ post.link }}" class="card-button">Подробнее</a></p>
+        </div>
+    {% endfor %}
+    {% if is_paginated %}
+        {% include 'partial/pagination.html' %}
+    {% endif %}

@@ -16,25 +16,6 @@ from accounts.forms import MyUserCreationForm, UserChangeForm, ProfileChangeForm
 from .models import AuthToken, Profile
 
 
-# def login_view(request):
-#     context = {}
-#     if request.method == 'POST':
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-#         user = authenticate(request, username=username, password=password)
-#         if user is not None:
-#             login(request, user)
-#             return redirect('webapp:index')
-#         else:
-#             context['has_error'] = True
-#     return render(request, 'registration/login.html', context=context)
-# 
-# 
-# def logout_view(request):
-#     logout(request)
-#     return redirect('webapp:index')
-
-
 class RegisterView(CreateView):
     model = User
     template_name = 'user_create.html'
@@ -82,15 +63,13 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     paginate_related_orphans = 0
 
     def get_context_data(self, **kwargs):
-        articles = self.object.articles.order_by('-created_at')
-        paginator = Paginator(articles, self.paginate_related_by, orphans=self.paginate_related_orphans)
+        posts = self.object.posts.order_by('-date_create')
+        paginator = Paginator(posts, self.paginate_related_by, orphans=self.paginate_related_orphans)
         page_number = self.request.GET.get('page', 1)
         page = paginator.get_page(page_number)
         kwargs['page_obj'] = page
-        kwargs['articles'] = page.object_list
+        kwargs['posts'] = page.object_list
         kwargs['is_paginated'] = page.has_other_pages()
-        if self.object == self.request.user:   # на странице пользователя показываем
-            kwargs['show_mass_delete'] = True  # массовое удаление только владельцу
         return super().get_context_data(**kwargs)
 
 
