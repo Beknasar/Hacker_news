@@ -34,3 +34,19 @@ class PostVote(models.Model):
     class Meta:
         verbose_name = 'Голос за пост'
         verbose_name_plural = 'Голосы за посты'
+
+
+class Comment(models.Model):
+    post = models.ForeignKey('webapp.Post', related_name='comments',
+                                on_delete=models.CASCADE, verbose_name='Пост')
+    text = models.TextField(max_length=400, verbose_name='Комментарий')
+    author = models.ForeignKey(get_user_model(), on_delete=models.SET_DEFAULT, default=1,
+                               related_name='comments', verbose_name='Автор')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
+
+    def __str__(self):
+        return self.text[:20]
+
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'

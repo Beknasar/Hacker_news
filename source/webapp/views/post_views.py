@@ -6,6 +6,7 @@ from django.urls import reverse, reverse_lazy
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseForbidden
+from django.core.paginator import Paginator
 
 
 class IndexView(ListView):
@@ -39,6 +40,29 @@ class CreatePostView(CreateView):
 class PostView(DetailView):
     template_name = 'posts/post_view.html'
     model = Post
+    paginate_comments_by = 2
+    paginate_comments_orphans = 0
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        comments, page, is_paginated = self.paginate_comments(self.object)
+        context['comments'] = comments
+        context['page_obj'] = page
+        context['is_paginated'] = is_paginated
+
+        return context
+
+    def paginate_comments(self, post):
+        comments = post.comments.all().order_by('-created_at')
+        if comments.count() > 0:
+            paginator = Paginator(comments, self.paginate_comments_by, orphans=self.paginate_comments_orphans)
+            page_number = self.request.GET.get('page', 1)
+            page = paginator.get_page(page_number)
+            is_paginated = paginator.num_pages > 1  # page.has_other_pages()
+            return page.object_list, page, is_paginated
+        else:
+            return comments, None, False
 
 
 class PostUpdateView(UpdateView):

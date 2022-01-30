@@ -1,5 +1,5 @@
 from django import forms
-from webapp.models import Post
+from webapp.models import Post, Comment
 
 
 class SearchForm(forms.Form):
@@ -10,3 +10,9 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'link']
+
+
+class PostCommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['text']

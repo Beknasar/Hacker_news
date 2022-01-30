@@ -12,4 +12,26 @@
     <h4><a href="{{ post.link }}">{{ post.title }}</a></h4>
     <p>Дата публикации: {{ post.date_create }}</p>
     <p><i class="far fa-heart"></i> {{ post.vote_amount }}</p>
+    <h3>Comments:</h3>
+        {% if is_paginated %}
+            {% include 'partial/pagination.html' %}
+        {% endif %}
+        {% for comment in comments %}
+            <div class="box">
+                <h4>
+                    <a href="{% url 'accounts:detail' comment.author_id %}">{{ comment.author }}</a>
+                    ({{ comment.created_at }})
+                </h4>
+                <div class="pre">{{ comment.text }}</div>
+                {% if perms.webapp.delete_comment or comment.author == request.user %}
+                    <p><a href="{% url 'webapp:comment_delete' comment.pk %}">Delete</a></p>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>Нет комментариев</p>
+        {% endfor %}
+        <p><a href="{% url 'webapp:post_comment_add' post.pk %}" class="card-button">Написать комментарий</a></p>
+        {% if is_paginated %}
+            {% include 'partial/pagination.html' %}
+        {% endif %}
 {% endblock %}
