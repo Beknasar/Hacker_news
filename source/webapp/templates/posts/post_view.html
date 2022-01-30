@@ -7,6 +7,7 @@
     <li><a href="{% url 'webapp:post_delete' post.pk %}"><i class="fas fa-trash"></i> Удалить пост</a></li>
 {% endblock %}
 {% block content %}
+    <br>
     <h3>Автор: {{ post.author }}</h3>
     <h4><a href="{{ post.link }}">{{ post.title }}</a></h4>
     <p>Дата публикации: {{ post.date_create }}</p>

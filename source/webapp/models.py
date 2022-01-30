@@ -10,9 +10,27 @@ class Post(models.Model):
     author = models.ForeignKey(get_user_model(), on_delete=models.SET_DEFAULT, default=1,
                                related_name='posts', verbose_name='Автор')
 
+    def voted_by(self, user):
+        votes = self.votes.filter(user=user)
+        return votes.count() > 0
+
     def __str__(self):
         return f"{self.pk}. {self.title}"
 
     class Meta:
         verbose_name = 'Статья'
         verbose_name_plural = "Статьи"
+
+
+class PostVote(models.Model):
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE,
+                             related_name='article_likes', verbose_name='Пользователь')
+    post = models.ForeignKey('webapp.Post', on_delete=models.CASCADE,
+                                related_name='votes', verbose_name='Статья')
+
+    def __str__(self):
+        return f'{self.user.username} - {self.post.title}'
+
+    class Meta:
+        verbose_name = 'Голос за пост'
+        verbose_name_plural = 'Голосы за посты'

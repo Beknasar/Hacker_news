@@ -1,11 +1,17 @@
+{% load votes %}
 {% for post in posts %}
         <div class="box">
             <h4>
-                <a href="#"><i class="far fa-heart"></i></a>
-                <a href="{% url 'webapp:post_view' post.pk %}">{{ post.title }}</a>
+                {% if user.is_authenticated %}
+                    <span class="counter">{{ post.votes_amount }}</span>
+                    {% with post|voted_by:user as liked %}
+                        <a class="{% if liked %}hidden{% endif %} vote" href="{% url 'webapp:post_vote' post.pk %}"><i class="far fa-heart"></i></a>
+                    {% endwith %}
+                {% endif %}
+                <a href="{{ post.link }}">{{ post.title }}</a>
             </h4>
-            <p>{{ post.vote_amount }} голосов за пост пользователя {{ post.author }} || Дата публикации: {{ post.date_create }}</p>
-            <p><a href="{{ post.link }}" class="card-button">Подробнее</a></p>
+            <p>{{ post.vote_amount }} голосов за пост от пользователя {{ post.author }} || Дата публикации: {{ post.date_create }}</p>
+            <p><a href="{% url 'webapp:post_view' post.pk %}" class="card-button">Подробнее</a></p>
         </div>
     {% endfor %}
     {% if is_paginated %}

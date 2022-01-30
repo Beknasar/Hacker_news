@@ -1,5 +1,5 @@
 from django.contrib import admin
-from webapp.models import Post
+from webapp.models import Post, PostVote
 
 
 class PostAdmin(admin.ModelAdmin):
@@ -7,3 +7,4 @@ class PostAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Post, PostAdmin)
+admin.site.register(PostVote)
