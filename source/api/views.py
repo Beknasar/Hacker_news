@@ -14,10 +14,16 @@ def get_token_view(request, *args, **kwargs):
 
 class PostCreateView(View):
     def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            response = JsonResponse({
+                'error': 'Forbidden'
+            })
+            response.status_code = 403
+            return response
         data = json.loads(request.body)
         print(data)
         post = Post.objects.create(
-            author_id=data['author_id'],
+            author=self.request.user,
             title=data['title'],
             link=data['link']
         )
