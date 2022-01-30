@@ -1,6 +1,6 @@
 from django.urls import path, include
 from webapp.views import IndexView, CreatePostView, PostView, PostUpdateView, PostDeleteView, PostVoteView, \
-    PostUnVoteView, CommentDeleteView, PostCommentCreateView
+    PostUnVoteView, CommentDeleteView, PostCommentCreateView, CommentUpdateView
 
 app_name = 'webapp'
 
@@ -20,6 +20,7 @@ urlpatterns = [
     ])),
     path('comment/', include([
         path('<int:pk>/', include([
+            path('update/', CommentUpdateView.as_view(), name='comment_update'),
             path('delete/', CommentDeleteView.as_view(), name='comment_delete'),
         ]))
     ]))

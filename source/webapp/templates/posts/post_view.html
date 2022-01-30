@@ -23,8 +23,11 @@
                     ({{ comment.created_at }})
                 </h4>
                 <div class="pre">{{ comment.text }}</div>
+                {% if perms.webapp.change_comment or comment.author == request.user %}
+                    <p style="display: inline-block;"><a href="{% url 'webapp:comment_update' comment.pk %}" class="comment_button">Update</a></p>
+                {% endif %}
                 {% if perms.webapp.delete_comment or comment.author == request.user %}
-                    <p><a href="{% url 'webapp:comment_delete' comment.pk %}">Delete</a></p>
+                    <p style="display: inline-block;"><a href="{% url 'webapp:comment_delete' comment.pk %}" class="comment_button">Delete</a></p>
                 {% endif %}
             </div>
         {% empty %}

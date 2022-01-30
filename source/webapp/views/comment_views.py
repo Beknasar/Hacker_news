@@ -30,3 +30,17 @@ class CommentDeleteView(DeleteView):
 
     def get_success_url(self):
         return reverse('webapp:post_view', kwargs={'pk': self.object.post.pk})
+
+
+class CommentUpdateView(PermissionRequiredMixin, UpdateView):
+    model = Comment
+    template_name = 'comment/comment_update.html'
+    form_class = PostCommentForm
+    permission_required = 'webapp.change_comment'
+
+    def has_permission(self):
+        comment = self.get_object()
+        return super().has_permission() or comment.author == self.request.user
+
+    def get_success_url(self):
+        return reverse('webapp:post_view', kwargs={'pk': self.object.post.pk})
