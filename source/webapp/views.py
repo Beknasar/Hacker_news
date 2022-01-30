@@ -68,3 +68,12 @@ class PostVoteView(LoginRequiredMixin, View):
         else:
             return HttpResponseForbidden()
 
+
+class PostUnVoteView(LoginRequiredMixin, View):
+    def delete(self, request, *args, **kwargs):
+        post = get_object_or_404(Post, pk=kwargs.get('pk'))
+        vote = get_object_or_404(post.votes, user=request.user)
+        vote.delete()
+        vote.like_count -= 1
+        post.save()
+        return HttpResponse(post.vote_amount)

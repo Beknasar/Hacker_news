@@ -1,5 +1,5 @@
 from django.urls import path, include
-from webapp.views import IndexView, CreatePostView, PostView, PostUpdateView, PostDeleteView, PostVoteView
+from webapp.views import IndexView, CreatePostView, PostView, PostUpdateView, PostDeleteView, PostVoteView, PostUnVoteView
 
 app_name = 'webapp'
 
@@ -11,7 +11,8 @@ urlpatterns = [
             path('', PostView.as_view(), name='post_view'),
             path('update/', PostUpdateView.as_view(), name='post_update'),
             path('delete/', PostDeleteView.as_view(), name='post_delete'),
-            path('vote/', PostVoteView.as_view(), name='post_vote')
+            path('vote/', PostVoteView.as_view(), name='post_vote'),
+            path('unvote/', PostUnVoteView.as_view(), name='post_unvote')
         ])),
     ])),
 ]

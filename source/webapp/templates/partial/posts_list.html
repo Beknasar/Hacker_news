@@ -3,9 +3,9 @@
         <div class="box">
             <h4>
                 {% if user.is_authenticated %}
-                    <span class="counter">{{ post.votes_amount }}</span>
-                    {% with post|voted_by:user as liked %}
-                        <a class="{% if liked %}hidden{% endif %} vote" href="{% url 'webapp:post_vote' post.pk %}"><i class="far fa-heart"></i></a>
+                    {% with post|voted_by:user as voted %}
+                        <a class="{% if voted %}hidden{% endif %} vote" href="{% url 'webapp:post_vote' post.pk %}"><i class="far fa-heart"></i></a>
+                        <a class="{% if not voted %}hidden{% endif %} unvote" href="{% url 'webapp:post_unvote' post.pk %}"><i class="fas fa-heart"></i></a>
                     {% endwith %}
                 {% endif %}
                 <a href="{{ post.link }}">{{ post.title }}</a>
