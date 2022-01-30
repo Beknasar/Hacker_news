@@ -2,15 +2,16 @@
 {% for post in posts %}
         <div class="box">
             <h4>
+                <a href="{{ post.link }}">{{ post.title }}</a>
+            </h4>
+            <p>
                 {% if user.is_authenticated %}
                     {% with post|voted_by:user as voted %}
                         <a class="{% if voted %}hidden{% endif %} vote" href="{% url 'webapp:post_vote' post.pk %}"><i class="far fa-heart"></i></a>
                         <a class="{% if not voted %}hidden{% endif %} unvote" href="{% url 'webapp:post_unvote' post.pk %}"><i class="fas fa-heart"></i></a>
                     {% endwith %}
                 {% endif %}
-                <a href="{{ post.link }}">{{ post.title }}</a>
-            </h4>
-            <p>{{ post.vote_amount }} голосов за пост от пользователя {{ post.author }} || Дата публикации: {{ post.date_create }}</p>
+                <span class="counter">{{ post.vote_amount }}</span> голосов за пост от пользователя {{ post.author }} || Дата публикации: {{ post.date_create }}</p>
             <p><a href="{% url 'webapp:post_view' post.pk %}" class="card-button">Подробнее</a></p>
         </div>
     {% endfor %}

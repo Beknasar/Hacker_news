@@ -12,7 +12,7 @@ urlpatterns = [
             path('update/', PostUpdateView.as_view(), name='post_update'),
             path('delete/', PostDeleteView.as_view(), name='post_delete'),
             path('vote/', PostVoteView.as_view(), name='post_vote'),
-            path('unvote/', PostUnVoteView.as_view(), name='post_unvote')
+            path('unvote/', PostUnVoteView.as_view(), name='post_unvote'),
         ])),
     ])),
 ]

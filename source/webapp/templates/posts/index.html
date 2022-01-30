@@ -17,4 +17,6 @@
     {% include 'partial/posts_list.html' %}
     </div>
 {% endblock %}
-
+{% block scripts %}
+    <script type="application/javascript" src="{% static "js/votes.js" %}"></script>
+{% endblock %}
