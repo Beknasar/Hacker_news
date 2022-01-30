@@ -77,3 +77,4 @@ class PostUnVoteView(LoginRequiredMixin, View):
         post.vote_amount -= 1
         post.save()
         return HttpResponse(post.vote_amount)
+
