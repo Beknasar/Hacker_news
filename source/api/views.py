@@ -1,10 +1,11 @@
 from api.permissions import GETModelPermissions
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
+from rest_framework.decorators import action
 from django.http import HttpResponse, HttpResponseNotAllowed
 from rest_framework.viewsets import ViewSet, ModelViewSet
 from django.views.decorators.csrf import ensure_csrf_cookie
-from webapp.models import Post
+from webapp.models import Post, PostVote
 from api.serializers import UserSerializer, PostSerializer
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -57,6 +58,26 @@ class PostViewSet(ViewSet):
         post = get_object_or_404(Post, pk=pk)
         post.delete()
         return Response({'pk': pk})
+
+    @action(methods=['post'], detail=True)
+    def vote(self, request, pk=None):
+        post = get_object_or_404(Post, pk=pk)
+        vote, created = PostVote.objects.get_or_create(post=post, user=request.user)
+        if created:
+            post.vote_amount += 1
+            post.save()
+            return Response({'pk': pk, 'votes': post.vote_amount})
+        else:
+            return Response(status=403)
+
+    @action(methods=['delete'], detail=True)
+    def unvote(self, request, pk=None):
+        post = get_object_or_404(Post, pk=pk)
+        like = get_object_or_404(post.votes, user=request.user)
+        like.delete()
+        post.vote_amount -= 1
+        post.save()
+        return Response({'pk': pk, 'votes': post.vote_amount})
 
 
 class UserViewSet(ModelViewSet):
