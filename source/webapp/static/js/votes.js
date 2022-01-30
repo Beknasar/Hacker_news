@@ -22,7 +22,6 @@ async function onUnVote(event) {
     event.preventDefault();
     let unvoteBtn = event.currentTarget;
     let url = unvoteBtn.href;
-    console.log(url);
 
     try {
         let response = await makeRequest(url, 'DELETE');

@@ -21,8 +21,6 @@ class PostViewSet(ViewSet):
     queryset = Post.objects.all()
 
     def get_permissions(self):
-        print(self.action)
-        print(self.request.method)
         if self.action in ['list', 'retrieve']:  # self.request.method == "GET"
             return [GETModelPermissions()]
         else:
@@ -36,15 +34,29 @@ class PostViewSet(ViewSet):
     def create(self, request):
         slr = PostSerializer(data=request.data, context={'request': request})
         if slr.is_valid():
-            article = slr.save()
+            post = slr.save()
             return Response(slr.data)
         else:
             return Response(slr.errors, status=400)
 
     def retrieve(self, request, pk=None):
-        article = get_object_or_404(Post, pk=pk)
-        slr = PostSerializer(article, context={'request': request})
+        post = get_object_or_404(Post, pk=pk)
+        slr = PostSerializer(post, context={'request': request})
         return Response(slr.data)
+
+    def update(self, request, pk=None):
+        post = get_object_or_404(Post, pk=pk)
+        slr = PostSerializer(data=request.data, instance=post, context={'request': request})
+        if slr.is_valid():
+            post = slr.save()
+            return Response(slr.data)
+        else:
+            return Response(slr.errors, status=400)
+
+    def destroy(self, request, pk=None):
+        post = get_object_or_404(Post, pk=pk)
+        post.delete()
+        return Response({'pk': pk})
 
 
 class UserViewSet(ModelViewSet):
